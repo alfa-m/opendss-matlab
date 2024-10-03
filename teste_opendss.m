@@ -52,8 +52,6 @@ harmonicos = 1:2:25;
 
 % Adiciona a fonte de corrente harmonica de sequencia positiva 
 barra = NomesBarras(7);
-comando = string(strcat('New Isource.fonteharmonico bus1=',barra,' amps=1'));
-DSSText.Command = comando;
     
 % Realiza fluxo de potência considerando a fonte de corrente
 DSSSolution.Solve;
@@ -69,7 +67,6 @@ DSSText.Command = ['Set mode=harmonic'];
 
 for j = 1:2:25
     disp(j);
-    
     comando = string(strcat('Set harmonics=[',string(j),']'));
     disp(comando);
     DSSText.Command = comando;
@@ -118,80 +115,4 @@ DSSText.Command = comando;
 %     DSSText.Command = comando;
 % end;
 
-% gets the names of all monitors in the model
 
-
-% DSSText.command = 'New spectrum.Scanspec numharm=1000 csvfile=ScanSpectrum.csv';
-% 
-% DSSText.command = 'New Monitor.Mscan Line.L13 1';
-% 
-% DSSText.command = 'New Isource.scansource bus1=830 amps=1 spectrum=scanspec';
-% 
-% DSSSolution.Solve;
-% 
-% DSSText.command = 'solve mode=harmonics  ! do the harmonic solutions';
-% 
-% DSSText.command = 'Plot monitor object= Mscan channels=(1 3 5 )';
-% 
-% 
-% 
-% % DSSMonitors = DSSCircuit.Monitors;
-% % DSSMeters = DSSCircuit.Meters;
-% % 
-% % DSSCircuit.Sample();
-% % 
-% % DSSCircuit.SaveSample();
-% % 
-% % DSSMonitors.First; 
-% % 
-% % DSSMonitors.Show(); 
-% % 
-% % DSSMeters.First; 
-% % 
-% % DSSMeters.Show(); 
-% % 
-% % 
-% % myNumIter = DSSSolution.Iterations;
-% % 
-% % 
-% % mySysY = DSSCircuit.SystemY;
-% % 
-% % myNodeList = DSSCircuit.AllNodeNames;
-% % 
-% % YSysSize = size(myNodeList);
-% % 
-% % % Formats Y matrix data as a complex dense matrix
-% % 
-% % myYMat = [];
-% % 
-% % myIdx = 1;
-% % 
-% % for a = 1:YSysSize(1),
-% % 
-% %     myRow = [];
-% % 
-% %     for b = 1:YSysSize(1),
-% % 
-% %         myRow = [myRow,(mySysY(myIdx) + i*mySysY(myIdx + 1))];
-% % 
-% %         myIdx = myIdx + 2;
-% % 
-% %     end;
-% % 
-% %     myYMat = [myYMat;myRow];
-% % 
-% % end;
-% % // add a marker to the circuit plot to show the Isource location
-% % ClearBusMarkers    !...Clears any previous bus markers
-% % AddBusMarker Bus=83 code=15 color=Red size=4
-% % 
-% % // Create the circuit plot
-% % Plot Circuit Power Max=1000 dots=n labels=n  C1=Blue  1ph=3
-% % 
-% % 
-% % solve mode=harmonics  ! do the harmonic solutions
-% % show mon mscan  ! show the results
-% % Export monitors mscan
-% % 
-% % // You can plot the Monitor, but Excel or Matlab might be better
-% % Plot monitor object= mscan channels=(1 3 5 )

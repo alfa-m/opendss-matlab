@@ -52,8 +52,6 @@ harmonicos = 1:2:25;
 
 % Adiciona a fonte de corrente harmonica de sequencia positiva 
 barra = NomesBarras(7);
-comando = string(strcat('New Isource.fonteharmonico bus1=',barra,' amps=1'));
-DSSText.Command = comando;
     
 % Realiza fluxo de potência considerando a fonte de corrente
 DSSSolution.Solve;
@@ -67,9 +65,10 @@ V_nodais = [];
 % Seleciona o modo harmonico
 DSSText.Command = ['Set mode=harmonic'];
 
-for j = 1:2:25
+for j = 1:2:13
     disp(j);
-    
+    comando = string(strcat('New Isource.fonteharmonico bus1=',barra,' amps=1 spectrum=',harmonicos));
+    DSSText.Command = comando;
     comando = string(strcat('Set harmonics=[',string(j),']'));
     disp(comando);
     DSSText.Command = comando;
@@ -107,8 +106,9 @@ monitor = NomesMonitores(9);
 comando = string(strcat('Plot monitor object=',monitor,' channels=(1 3 5 )'));
 disp(comando);
 DSSText.Command = comando;
-comando = string(strcat('Export monitors ',monitor));
-DSSText.Command =comado;
+comando = string('Export monitors all');
+disp(comando);
+DSSText.Command = comando;
 
 % for k = 1:length(NomesMonitores)
 %     monitor = NomesMonitores(k);
