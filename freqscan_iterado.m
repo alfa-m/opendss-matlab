@@ -50,20 +50,20 @@ NomesMonitores = string(Monitores.AllNames);
 % Define o espectro de frequencias a serem analisadas
 harmonicos = 1:2:25;
 harmonicos = harmonicos';
-% mag_harmonicos = 100 * ones(length(harmonicos),1);
-% fase_harmonicos = zeros(length(harmonicos),1);
-% espectro_harmonico = [harmonicos mag_harmonicos fase_harmonicos];
-% writematrix(espectro_harmonico,'espectro_harmonico.csv');
-% comando = string(strcat('New spectrum.espectroharmonico numharm=',string(length(harmonicos)),' csvfile=espectro_harmonico.csv'));
-% disp(comando);
-% DSSText.Command = comando;
-
-% Adiciona a fonte de corrente harmonica de sequencia positiva 
-barra = NomesBarras(25);
-comando = string(strcat('New Isource.scansource bus1=',barra,' amps=1'));
+mag_harmonicos = 100 * ones(length(harmonicos),1);
+fase_harmonicos = zeros(length(harmonicos),1);
+espectro_harmonico = [harmonicos mag_harmonicos fase_harmonicos];
+writematrix(espectro_harmonico,'espectro_harmonico.csv');
+comando = string(strcat('New spectrum.espectroharmonico numharm=',string(length(harmonicos)),' csvfile=espectro_harmonico.csv'));
 disp(comando);
 DSSText.Command = comando;
 
+% Adiciona a fonte de corrente harmonica de sequencia positiva 
+barra = NomesBarras(25);
+comando = string(strcat('New Isource.scansource bus1=',barra,' amps=1 spectrum=espectroharmonico'));
+disp(comando);
+DSSText.Command = comando;
+    
 % Realiza fluxo de potencia considerando a fonte de corrente
 DSSSolution.Solve;
 
@@ -73,19 +73,14 @@ Y = [];
 % Cria matrix tensoes
 V_nodais = [];
 
-% Cria matriz correntes
-I_nodais =[];
-
-% % Seleciona o modo harmonico
-% DSSText.Command = ['Set mode=harmonic'];
+% Seleciona o modo harmonico
+DSSText.Command = ['Set mode=harmonic'];
 
 DSSSolution.Solve;
 
 for j = 1:2:25
-    frequencia = 60 * j;
     disp(j);
-    disp(frequencia);
-    comando = strcat('Set DefaultBaseFrequency=',string(frequencia));
+    comando = strcat('Set harmonics=(',string(j),')');
     disp(comando);
     DSSText.Command = comando;
     DSSSolution.Solve;
@@ -103,57 +98,26 @@ for j = 1:2:25
             myRow = [myRow,(mySysY(myIdx) + i*mySysY(myIdx + 1))];
             myIdx = myIdx + 2;
         end;
-        myYMat = [myYMat; myRow];
+        myYMat = [myYMat;myRow];
     end;
     
     Y = [Y; myYMat];
-    
-    myYV = DSSCircuit.YNodeVarray;
-    mySize = size(myYV);
-    % Formats the voltages vector as a complex and polar vectors
-    myVCmplx = [];
-    myVPolar = [];
-    for a = 1:2:mySize(2)
-        cmplxNum = myYV(a)+ i*myYV(a + 1);
-        myVCmplx = [myVCmplx;cmplxNum];
-        myVPolar = [myVPolar;[abs(cmplxNum),angle(cmplxNum)*180/pi]];
-    end;
-    
-    V_nodais = [V_nodais; myYV];
+    V_nodais = [V_nodais; DSSCircuit.AllBusVmag];
 
-    myYCurr = DSSCircuit.YCurrents;
-    mySize = size(myYCurr);
-    % Formats the injection currents vector as a complex and polar vectors
-    myInjCurrCmplx = [];
-    myInjCurrPolar = [];
-    for a = 1:2:mySize(2)
-        cmplxNum = myYCurr(a)+ i*myYCurr(a + 1);
-        myInjCurrCmplx = [myInjCurrCmplx;cmplxNum];
-        myInjCurrPolar = [myInjCurrPolar;[abs(cmplxNum),angle(cmplxNum)*180/pi]];
-    end;
-    
-    I_nodais = [I_nodais; myYCurr];
-    
-    %% pega amostra dos valores nos monitores
-    %Monitores.SampleAll();
+    % pega amostra dos valores nos monitores
+    Monitores.SampleAll();
     
     % salva os valores nos monitores
-    %%Monitores.SaveAll();
-
+    Monitores.SaveAll();
 end;
 
 %DSSText.Command = ['Export monitors all'];
-harmonicos = 1:2:25;
-harmonicos = harmonicos';
-V1 = V_nodais(:,61);
-V2 = V_nodais(:,62);
-V3 = V_nodais(:,63);
-plot(harmonicos,V1,harmonicos,V2,':',harmonicos,V3,'--');
 
-% monitor = NomesMonitores(1);
-% comando = string(strcat('Plot monitor object=',monitor,' channels=(1 3 5 )'));
-% disp(comando);
-% DSSText.Command = comando;
+%%%%%%%%%%%%%%%  revisar aqui %%%%%%%%%%%%%%%%%%%
+monitor = NomesMonitores(22);
+comando = string(strcat('Plot monitor object=',monitor,' channels=(1 3 5 )'));
+disp(comando);
+DSSText.Command = comando;
 % comando = string('Export monitors all');
 % disp(comando);
 % DSSText.Command = comando;
@@ -164,5 +128,3 @@ plot(harmonicos,V1,harmonicos,V2,':',harmonicos,V3,'--');
 %     disp(comando);
 %     DSSText.Command = comando;
 % end;
-
-
