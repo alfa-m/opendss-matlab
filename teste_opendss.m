@@ -11,7 +11,7 @@ if ~DSSObj.Start(0)
 return
 end
 
-% Cria as variáveis da interface
+% Cria as variaveis da interface
 DSSText = DSSObj.Text;
 DSSCircuit = DSSObj.ActiveCircuit;
 DSSSolution = DSSCircuit.Solution;
