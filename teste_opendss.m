@@ -7,7 +7,7 @@ DSSObj = actxserver('OpenDSSEngine.DSS');
 
 % Testa a inicializacao do OpenDSS
 if ~DSSObj.Start(0)
-    disp('Não foi pos´sivel iniciar a OpenDSS Engine')
+    disp('Não foi possível iniciar a OpenDSS Engine')
 return
 end
 
@@ -78,40 +78,40 @@ DSSText.Command = ['Set mode=harmonic'];
 
 DSSSolution.Solve;
 
-% for j = 1:2:25
-%     disp(j);
-%     comando = strcat('Set harmonics=(',string(j),')');
-%     disp(comando);
-%     DSSText.Command = comando;
-%     DSSSolution.Solve;
-%     
-%     mySysY = DSSCircuit.SystemY;
-%     NomesNos = DSSCircuit.AllNodeNames;
-%     TamanhoY = size(NomesNos);
-% 
-%     myYMat = [];
-%     myIdx = 1;
-% 
-%     for a = 1:TamanhoY(1)
-%         myRow = [];
-%         for b = 1:TamanhoY(1)
-%             myRow = [myRow,(mySysY(myIdx) + i*mySysY(myIdx + 1))];
-%             myIdx = myIdx + 2;
-%         end;
-%         myYMat = [myYMat;myRow];
-%     end;
-%     
-%     Y = [Y; myYMat];
-%     V_nodais = [V_nodais; DSSCircuit.AllBusVmag];
-% 
-%     % pega amostra dos valores nos monitores
-%     Monitores.SampleAll();
-%     
-%     % salva os valores nos monitores
-%     Monitores.SaveAll();
-% end;
+for j = 1:2:25
+    disp(j);
+    comando = strcat('Set harmonics=(',string(j),')');
+    disp(comando);
+    DSSText.Command = comando;
+    DSSSolution.Solve;
+    
+    mySysY = DSSCircuit.SystemY;
+    NomesNos = DSSCircuit.AllNodeNames;
+    TamanhoY = size(NomesNos);
 
-DSSText.Command = ['Export monitors all'];
+    myYMat = [];
+    myIdx = 1;
+
+    for a = 1:TamanhoY(1)
+        myRow = [];
+        for b = 1:TamanhoY(1)
+            myRow = [myRow,(mySysY(myIdx) + i*mySysY(myIdx + 1))];
+            myIdx = myIdx + 2;
+        end;
+        myYMat = [myYMat;myRow];
+    end;
+    
+    Y = [Y; myYMat];
+    V_nodais = [V_nodais; DSSCircuit.AllBusVmag];
+
+    % pega amostra dos valores nos monitores
+    Monitores.SampleAll();
+    
+    % salva os valores nos monitores
+    Monitores.SaveAll();
+end;
+
+%DSSText.Command = ['Export monitors all'];
 
 %%%%%%%%%%%%%%%  revisar aqui %%%%%%%%%%%%%%%%%%%
 monitor = NomesMonitores(22);
