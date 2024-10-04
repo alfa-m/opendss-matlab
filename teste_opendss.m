@@ -5,7 +5,7 @@ clear
 % Inicializa o objeto DSS
 DSSObj = actxserver('OpenDSSEngine.DSS');
 
-% Testa a inicialização do OpenDSS
+% Testa a inicializacao do OpenDSS
 if ~DSSObj.Start(0)
     disp('Não foi pos´sivel iniciar a OpenDSS Engine')
 return
@@ -33,7 +33,7 @@ DSSSolution.Solve;
 % Adiciona dados de coordenadas das barras
 DSSText.Command = ['Buscoords Buscoords.dat'];
 
-% Remove demais fontes harmônicas
+% Remove demais fontes harmonicas
 DSSText.Command = ['Spectrum.DefaultLoad.NumHarm=1'];
 
 % Adiciona um monitor em cada linha
@@ -53,7 +53,7 @@ harmonicos = 1:2:25;
 % Adiciona a fonte de corrente harmonica de sequencia positiva 
 barra = NomesBarras(7);
     
-% Realiza fluxo de potência considerando a fonte de corrente
+% Realiza fluxo de potencia considerando a fonte de corrente
 DSSSolution.Solve;
 
 % Salva Y
