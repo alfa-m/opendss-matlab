@@ -17,9 +17,9 @@ DSSCircuit = DSSObj.ActiveCircuit;
 DSSSolution = DSSCircuit.Solution;
 
 % Adiciona o path e compila o arquivo .dss
-Projpath    = [pwd,'\ieee34Mod1.dss'];
+Projpath    = [pwd,'\34Barras\ieee34Mod1.dss'];
 DSSText.Command=['Clear'];
-DSSText.Command=['Compile "',Projpath,'"']; 
+DSSText.Command=['Redirect "',Projpath,'"']; 
 
 % Cria variaveis contendo o nome das linhas e barras 
 Linhas = DSSCircuit.Lines;
@@ -134,15 +134,15 @@ for j = 1:2:25
     
     I_nodais = [I_nodais; myYCurr];
     
-    %% pega amostra dos valores nos monitores
-    %Monitores.SampleAll();
-    
-    % salva os valores nos monitores
-    %%Monitores.SaveAll();
+%     % pega amostra dos valores nos monitores
+%     Monitores.SampleAll();
+%     
+%     % salva os valores nos monitores
+%     Monitores.SaveAll();
 
 end;
 
-%DSSText.Command = ['Export monitors all'];
+% DSSText.Command = ['Export monitors all'];
 harmonicos = 1:2:25;
 harmonicos = harmonicos';
 V1 = V_nodais(:,61);

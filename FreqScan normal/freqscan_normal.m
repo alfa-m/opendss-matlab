@@ -55,13 +55,11 @@ fase_harmonicos = zeros(length(harmonicos),1);
 espectro_harmonico = [harmonicos mag_harmonicos fase_harmonicos];
 writematrix(espectro_harmonico,'espectro_harmonico.csv');
 comando = string(strcat('New spectrum.espectroharmonico numharm=',string(length(harmonicos)),' csvfile=espectro_harmonico.csv'));
-disp(comando);
 DSSText.Command = comando;
 
 % Adiciona a fonte de corrente harmonica de sequencia positiva 
 barra = NomesBarras(25);
 comando = string(strcat('New Isource.scansource bus1=',barra,' amps=1 spectrum=espectroharmonico'));
-disp(comando);
 DSSText.Command = comando;
     
 % Realiza fluxo de potencia considerando a fonte de corrente
@@ -86,8 +84,7 @@ DSSText.Command = ['Export monitors all'];
 for k = 1:length(NomesMonitores)
     monitor = NomesMonitores(k);
     comando = string(strcat('Plot monitor object=',monitor,' channels=(1 3 5 )'));
-    disp(comando);
     DSSText.Command = comando;
 end;
 
-
+disp("Análise harmônica finalizada");
