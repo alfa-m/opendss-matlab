@@ -104,11 +104,11 @@ for j = 1:2:25
     Y = [Y; myYMat];
     V_nodais = [V_nodais; DSSCircuit.AllBusVmag];
 
-    % pega amostra dos valores nos monitores
-    Monitores.SampleAll();
-    
-    % salva os valores nos monitores
-    Monitores.SaveAll();
+%     % pega amostra dos valores nos monitores
+%     Monitores.SampleAll();
+%     
+%     % salva os valores nos monitores
+%     Monitores.SaveAll();
 end;
 
 %DSSText.Command = ['Export monitors all'];

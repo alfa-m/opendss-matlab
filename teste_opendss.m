@@ -48,7 +48,7 @@ Monitores = DSSCircuit.Monitors;
 NomesMonitores = string(Monitores.AllNames);
 
 % Define o espectro de frequencias a serem analisadas
-harmonicos = 1:2:25;
+harmonicos = 1:0.25:25;
 harmonicos = harmonicos';
 % mag_harmonicos = 100 * ones(length(harmonicos),1);
 % fase_harmonicos = zeros(length(harmonicos),1);
@@ -81,11 +81,11 @@ I_nodais =[];
 
 DSSSolution.Solve;
 
-for j = 1:2:25
+for j = 1:0.25:25
     frequencia = 60 * j;
     disp(j);
     disp(frequencia);
-    comando = strcat('Set DefaultBaseFrequency=',string(frequencia));
+    comando = strcat('Set Frequency=',string(frequencia));
     disp(comando);
     DSSText.Command = comando;
     DSSSolution.Solve;
@@ -143,11 +143,11 @@ for j = 1:2:25
 end;
 
 % DSSText.Command = ['Export monitors all'];
-harmonicos = 1:2:25;
+harmonicos = 1:0.25:25;
 harmonicos = harmonicos';
-V1 = V_nodais(:,61);
-V2 = V_nodais(:,62);
-V3 = V_nodais(:,63);
+V1 = V_nodais(:,4);
+V2 = V_nodais(:,5);
+V3 = V_nodais(:,6);
 plot(harmonicos,V1,harmonicos,V2,':',harmonicos,V3,'--');
 
 % monitor = NomesMonitores(1);
