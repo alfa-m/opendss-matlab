@@ -89,6 +89,8 @@ for a = 1:TamanhoY(1)
     myYMat = [myYMat;myRow];
 end;
 Y = [Y; myYMat];
+writematrix(Y,'Y.csv');
+DSSText.Command = ['Export Y'];
 
 % Exporta todos os valores dos monitores
 DSSText.Command = ['Export monitors all'];
