@@ -1,6 +1,7 @@
 % Limpa as tela de comando e o workspace
 clc
 clear
+tic;
 
 % Inicializa o objeto DSS
 DSSObj = actxserver('OpenDSSEngine.DSS');
@@ -39,7 +40,7 @@ DSSText.Command = ['Spectrum.DefaultLoad.NumHarm=1'];
 % Adiciona um monitor em cada linha
 for i = 1:length(NomesLinhas)
     linha = NomesLinhas(i);
-    comando = string(strcat('New Monitor.MonitorLine',linha,' Line.',linha,' 1'));
+    comando = string(strcat('New Monitor.MonitorLine',linha,' Line.',linha,' 1 mode=0'));
     DSSText.Command = comando;
 end;
 

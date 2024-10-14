@@ -15,6 +15,7 @@ end
 DSSText = DSSObj.Text;
 DSSCircuit = DSSObj.ActiveCircuit;
 DSSSolution = DSSCircuit.Solution;
+DSSText.Command=['Set DefaultBaseFrequency=60'];
 
 % Adiciona o path e compila o arquivo .dss
 Projpath    = [pwd,'\ieee34Mod1.dss'];
@@ -46,25 +47,9 @@ end;
 % Salva nomes dos monitores
 Monitores = DSSCircuit.Monitors;
 NomesMonitores = string(Monitores.AllNames);
-
-% Define o espectro de frequencias a serem analisadas
-harmonicos = 1:2:25;
-harmonicos = harmonicos';
-mag_harmonicos = 100 * ones(length(harmonicos),1);
-fase_harmonicos = zeros(length(harmonicos),1);
-espectro_harmonico = [harmonicos mag_harmonicos fase_harmonicos];
-writematrix(espectro_harmonico,'espectro_harmonico.csv');
-comando = string(strcat('New spectrum.espectroharmonico numharm=',string(length(harmonicos)),' csvfile=espectro_harmonico.csv'));
-disp(comando);
-DSSText.Command = comando;
-
-% Adiciona a fonte de corrente harmonica de sequencia positiva 
-barra = NomesBarras(25);
-comando = string(strcat('New Isource.scansource bus1=',barra,' amps=1 spectrum=espectroharmonico'));
-disp(comando);
-DSSText.Command = comando;
-    
+  
 % Realiza fluxo de potencia considerando a fonte de corrente
+DSSText.Command = ['Set number=1'];
 DSSSolution.Solve;
 
 % Cria matriz Y
